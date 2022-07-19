@@ -1,7 +1,11 @@
 # statuscake-rb
 
-This README outlines the details of collaborating on this Ruby gem. A short
-introduction of this gem could easily go here.
+**NOTE**: This library is in alpha and not production ready. Whilst it can be
+used we will not offer support until it is generally available.
+
+The [Ruby](https://www.ruby-lang.org/en/) implementation of the [StatusCake
+API](https://www.statuscake.com/api/v1) client. Documentation for this library
+can be found [here](https://www.statuscake.com/api/v1).
 
 ## Prerequisites
 
