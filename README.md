@@ -1,4 +1,4 @@
-# statuscake-rb
+# statuscake-rb ![test](https://github.com/StatusCakeDev/statuscake-rb/workflows/test/badge.svg)
 
 **NOTE**: This library is in alpha and not production ready. Whilst it can be
 used we will not offer support until it is generally available.
