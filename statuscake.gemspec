@@ -51,7 +51,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop-rake', '~> 0.5', '>= 0.5.1'
   s.add_development_dependency 'rubocop-rspec', '~> 2.12', '>= 2.12.1'
 
-  s.files         = Dir.glob('{bin,lib}/**/*').uniq.sort.reject(&:empty?)
+  s.files = [
+    'README.md',
+    'LICENSE.md',
+    *Dir.glob('{bin,lib}/**/*').uniq.sort.reject(&:empty?),
+  ]
+
   s.executables   = []
   s.require_paths = ['lib']
 end
