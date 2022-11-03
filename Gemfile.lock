@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    statuscake-rb (1.0.0.pre.beta.4)
+    statuscake-rb (1.0.1.pre.beta.1)
       typhoeus (~> 1.0, >= 1.0.1)
 
 GEM
