@@ -32,14 +32,9 @@ require 'time'
 
 module StatusCake
   # :nodoc
-  class PagespeedTestCheckRate
-    OneMinute = 60
-    FiveMinutes = 300
-    TenMinutes = 600
-    FifteenMinutes = 900
-    ThirtyMinutes = 1800
-    OneHour = 3600
-    OneDay = 86400
+  class HeartbeatTestStatus
+    Down = "down"
+    Up = "up"
 
     # Builds the enum from string
     # @param [String] The enum value in the form of the string
@@ -52,8 +47,8 @@ module StatusCake
     # @param [String] The enum value in the form of the string
     # @return [String] The enum value
     def build_from_hash(value)
-      values = PagespeedTestCheckRate.constants.select { |c| PagespeedTestCheckRate.const_get(c) == value }
-      raise "Invalid ENUM value #{value} for class #PagespeedTestCheckRate" if values.empty?
+      values = HeartbeatTestStatus.constants.select { |c| HeartbeatTestStatus.const_get(c) == value }
+      raise "Invalid ENUM value #{value} for class #HeartbeatTestStatus" if values.empty?
       value
     end
   end

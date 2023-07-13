@@ -32,44 +32,17 @@ require 'time'
 
 module StatusCake
   # :nodoc
-  class MaintenanceWindow
-    # Maintenance window ID
-    attr_accessor :id
+  class HeartbeatTests
+    # List of heartbeat checks
+    attr_accessor :data
 
-    # Name of the maintenance window
-    attr_accessor :name
-
-    # End of the maintenance window (RFC3339 format)
-    attr_accessor :end_at
-
-    attr_accessor :repeat_interval
-
-    # Start of the maintenance window (RFC3339 format)
-    attr_accessor :start_at
-
-    attr_accessor :state
-
-    # List of tags used to include matching uptime checks in this maintenance window
-    attr_accessor :tags
-
-    # List of uptime check IDs explicitly included in this maintenance window
-    attr_accessor :tests
-
-    # Standard [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) associated with this maintenance window
-    attr_accessor :timezone
+    attr_accessor :metadata
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'id' => :'id',
-        :'name' => :'name',
-        :'end_at' => :'end_at',
-        :'repeat_interval' => :'repeat_interval',
-        :'start_at' => :'start_at',
-        :'state' => :'state',
-        :'tags' => :'tags',
-        :'tests' => :'tests',
-        :'timezone' => :'timezone',
+        :'data' => :'data',
+        :'metadata' => :'metadata',
       }
     end
 
@@ -81,15 +54,8 @@ module StatusCake
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'id' => :'String',
-        :'name' => :'String',
-        :'end_at' => :'Time',
-        :'repeat_interval' => :'MaintenanceWindowRepeatInterval',
-        :'start_at' => :'Time',
-        :'state' => :'MaintenanceWindowState',
-        :'tags' => :'Array<String>',
-        :'tests' => :'Array<String>',
-        :'timezone' => :'String',
+        :'data' => :'Array<HeartbeatTestOverview>',
+        :'metadata' => :'Pagination',
       }
     end
 
@@ -102,55 +68,25 @@ module StatusCake
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       unless attributes.is_a?(Hash)
-        raise ArgumentError, "The input argument (attributes) must be a hash in `StatusCake::MaintenanceWindow` initialize method"
+        raise ArgumentError, "The input argument (attributes) must be a hash in `StatusCake::HeartbeatTests` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         unless self.class.attribute_map.key?(k.to_sym)
-          raise ArgumentError, "`#{k}` is not a valid attribute in `StatusCake::MaintenanceWindow`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          raise ArgumentError, "`#{k}` is not a valid attribute in `StatusCake::HeartbeatTests`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'id')
-        self.id = attributes[:'id']
-      end
-
-      if attributes.key?(:'name')
-        self.name = attributes[:'name']
-      end
-
-      if attributes.key?(:'end_at')
-        self.end_at = attributes[:'end_at']
-      end
-
-      if attributes.key?(:'repeat_interval')
-        self.repeat_interval = attributes[:'repeat_interval']
-      end
-
-      if attributes.key?(:'start_at')
-        self.start_at = attributes[:'start_at']
-      end
-
-      if attributes.key?(:'state')
-        self.state = attributes[:'state']
-      end
-
-      if attributes.key?(:'tags')
-        if (value = attributes[:'tags']).is_a?(Array)
-          self.tags = value
+      if attributes.key?(:'data')
+        if (value = attributes[:'data']).is_a?(Array)
+          self.data = value
         end
       end
 
-      if attributes.key?(:'tests')
-        if (value = attributes[:'tests']).is_a?(Array)
-          self.tests = value
-        end
-      end
-
-      if attributes.key?(:'timezone')
-        self.timezone = attributes[:'timezone']
+      if attributes.key?(:'metadata')
+        self.metadata = attributes[:'metadata']
       end
     end
 
@@ -158,40 +94,12 @@ module StatusCake
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = []
-      if @id.nil?
-        invalid_properties.push('invalid value for "id", id cannot be nil.')
+      if @data.nil?
+        invalid_properties.push('invalid value for "data", data cannot be nil.')
       end
 
-      if @name.nil?
-        invalid_properties.push('invalid value for "name", name cannot be nil.')
-      end
-
-      if @end_at.nil?
-        invalid_properties.push('invalid value for "end_at", end_at cannot be nil.')
-      end
-
-      if @repeat_interval.nil?
-        invalid_properties.push('invalid value for "repeat_interval", repeat_interval cannot be nil.')
-      end
-
-      if @start_at.nil?
-        invalid_properties.push('invalid value for "start_at", start_at cannot be nil.')
-      end
-
-      if @state.nil?
-        invalid_properties.push('invalid value for "state", state cannot be nil.')
-      end
-
-      if @tags.nil?
-        invalid_properties.push('invalid value for "tags", tags cannot be nil.')
-      end
-
-      if @tests.nil?
-        invalid_properties.push('invalid value for "tests", tests cannot be nil.')
-      end
-
-      if @timezone.nil?
-        invalid_properties.push('invalid value for "timezone", timezone cannot be nil.')
+      if @metadata.nil?
+        invalid_properties.push('invalid value for "metadata", metadata cannot be nil.')
       end
 
       invalid_properties
@@ -200,15 +108,8 @@ module StatusCake
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @id.nil?
-      return false if @name.nil?
-      return false if @end_at.nil?
-      return false if @repeat_interval.nil?
-      return false if @start_at.nil?
-      return false if @state.nil?
-      return false if @tags.nil?
-      return false if @tests.nil?
-      return false if @timezone.nil?
+      return false if @data.nil?
+      return false if @metadata.nil?
       true
     end
 
@@ -217,15 +118,8 @@ module StatusCake
     def ==(other)
       return true if equal?(other)
       self.class == other.class &&
-        id == other.id &&
-        name == other.name &&
-        end_at == other.end_at &&
-        repeat_interval == other.repeat_interval &&
-        start_at == other.start_at &&
-        state == other.state &&
-        tags == other.tags &&
-        tests == other.tests &&
-        timezone == other.timezone
+        data == other.data &&
+        metadata == other.metadata
     end
 
     # @see the `==` method
@@ -237,7 +131,7 @@ module StatusCake
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, end_at, repeat_interval, start_at, state, tags, tests, timezone].hash
+      [data, metadata].hash
     end
 
     # Builds the object from hash

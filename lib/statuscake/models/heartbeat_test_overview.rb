@@ -32,44 +32,45 @@ require 'time'
 
 module StatusCake
   # :nodoc
-  class MaintenanceWindow
-    # Maintenance window ID
+  class HeartbeatTestOverview
+    # Heartbeat check ID
     attr_accessor :id
 
-    # Name of the maintenance window
+    # Name of the check
     attr_accessor :name
 
-    # End of the maintenance window (RFC3339 format)
-    attr_accessor :end_at
+    # URL of the check
+    attr_accessor :url
 
-    attr_accessor :repeat_interval
+    # Number of seconds since the last ping before the check is considered down
+    attr_accessor :period
 
-    # Start of the maintenance window (RFC3339 format)
-    attr_accessor :start_at
+    # List of contact group IDs
+    attr_accessor :contact_groups
 
-    attr_accessor :state
+    # Whether the check should be run
+    attr_accessor :paused
 
-    # List of tags used to include matching uptime checks in this maintenance window
+    attr_accessor :status
+
+    # List of tags
     attr_accessor :tags
 
-    # List of uptime check IDs explicitly included in this maintenance window
-    attr_accessor :tests
-
-    # Standard [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) associated with this maintenance window
-    attr_accessor :timezone
+    # Uptime percentage for a check
+    attr_accessor :uptime
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'id' => :'id',
         :'name' => :'name',
-        :'end_at' => :'end_at',
-        :'repeat_interval' => :'repeat_interval',
-        :'start_at' => :'start_at',
-        :'state' => :'state',
+        :'url' => :'url',
+        :'period' => :'period',
+        :'contact_groups' => :'contact_groups',
+        :'paused' => :'paused',
+        :'status' => :'status',
         :'tags' => :'tags',
-        :'tests' => :'tests',
-        :'timezone' => :'timezone',
+        :'uptime' => :'uptime',
       }
     end
 
@@ -83,13 +84,13 @@ module StatusCake
       {
         :'id' => :'String',
         :'name' => :'String',
-        :'end_at' => :'Time',
-        :'repeat_interval' => :'MaintenanceWindowRepeatInterval',
-        :'start_at' => :'Time',
-        :'state' => :'MaintenanceWindowState',
+        :'url' => :'String',
+        :'period' => :'Integer',
+        :'contact_groups' => :'Array<String>',
+        :'paused' => :'Boolean',
+        :'status' => :'HeartbeatTestStatus',
         :'tags' => :'Array<String>',
-        :'tests' => :'Array<String>',
-        :'timezone' => :'String',
+        :'uptime' => :'Float',
       }
     end
 
@@ -102,13 +103,13 @@ module StatusCake
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       unless attributes.is_a?(Hash)
-        raise ArgumentError, "The input argument (attributes) must be a hash in `StatusCake::MaintenanceWindow` initialize method"
+        raise ArgumentError, "The input argument (attributes) must be a hash in `StatusCake::HeartbeatTestOverview` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         unless self.class.attribute_map.key?(k.to_sym)
-          raise ArgumentError, "`#{k}` is not a valid attribute in `StatusCake::MaintenanceWindow`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          raise ArgumentError, "`#{k}` is not a valid attribute in `StatusCake::HeartbeatTestOverview`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
@@ -121,20 +122,26 @@ module StatusCake
         self.name = attributes[:'name']
       end
 
-      if attributes.key?(:'end_at')
-        self.end_at = attributes[:'end_at']
+      if attributes.key?(:'url')
+        self.url = attributes[:'url']
       end
 
-      if attributes.key?(:'repeat_interval')
-        self.repeat_interval = attributes[:'repeat_interval']
+      if attributes.key?(:'period')
+        self.period = attributes[:'period']
       end
 
-      if attributes.key?(:'start_at')
-        self.start_at = attributes[:'start_at']
+      if attributes.key?(:'contact_groups')
+        if (value = attributes[:'contact_groups']).is_a?(Array)
+          self.contact_groups = value
+        end
       end
 
-      if attributes.key?(:'state')
-        self.state = attributes[:'state']
+      if attributes.key?(:'paused')
+        self.paused = attributes[:'paused']
+      end
+
+      if attributes.key?(:'status')
+        self.status = attributes[:'status']
       end
 
       if attributes.key?(:'tags')
@@ -143,14 +150,8 @@ module StatusCake
         end
       end
 
-      if attributes.key?(:'tests')
-        if (value = attributes[:'tests']).is_a?(Array)
-          self.tests = value
-        end
-      end
-
-      if attributes.key?(:'timezone')
-        self.timezone = attributes[:'timezone']
+      if attributes.key?(:'uptime')
+        self.uptime = attributes[:'uptime']
       end
     end
 
@@ -166,32 +167,40 @@ module StatusCake
         invalid_properties.push('invalid value for "name", name cannot be nil.')
       end
 
-      if @end_at.nil?
-        invalid_properties.push('invalid value for "end_at", end_at cannot be nil.')
+      if @url.nil?
+        invalid_properties.push('invalid value for "url", url cannot be nil.')
       end
 
-      if @repeat_interval.nil?
-        invalid_properties.push('invalid value for "repeat_interval", repeat_interval cannot be nil.')
+      if @period.nil?
+        invalid_properties.push('invalid value for "period", period cannot be nil.')
       end
 
-      if @start_at.nil?
-        invalid_properties.push('invalid value for "start_at", start_at cannot be nil.')
+      if @period > 172800
+        invalid_properties.push('invalid value for "period", must be smaller than or equal to 172800.')
       end
 
-      if @state.nil?
-        invalid_properties.push('invalid value for "state", state cannot be nil.')
+      if @period < 30
+        invalid_properties.push('invalid value for "period", must be greater than or equal to 30.')
+      end
+
+      if @contact_groups.nil?
+        invalid_properties.push('invalid value for "contact_groups", contact_groups cannot be nil.')
+      end
+
+      if @paused.nil?
+        invalid_properties.push('invalid value for "paused", paused cannot be nil.')
+      end
+
+      if @status.nil?
+        invalid_properties.push('invalid value for "status", status cannot be nil.')
       end
 
       if @tags.nil?
         invalid_properties.push('invalid value for "tags", tags cannot be nil.')
       end
 
-      if @tests.nil?
-        invalid_properties.push('invalid value for "tests", tests cannot be nil.')
-      end
-
-      if @timezone.nil?
-        invalid_properties.push('invalid value for "timezone", timezone cannot be nil.')
+      if !@uptime.nil? && @uptime < 0
+        invalid_properties.push('invalid value for "uptime", must be greater than or equal to 0.')
       end
 
       invalid_properties
@@ -202,14 +211,44 @@ module StatusCake
     def valid?
       return false if @id.nil?
       return false if @name.nil?
-      return false if @end_at.nil?
-      return false if @repeat_interval.nil?
-      return false if @start_at.nil?
-      return false if @state.nil?
+      return false if @url.nil?
+      return false if @period.nil?
+      return false if @period > 172800
+      return false if @period < 30
+      return false if @contact_groups.nil?
+      return false if @paused.nil?
+      return false if @status.nil?
       return false if @tags.nil?
-      return false if @tests.nil?
-      return false if @timezone.nil?
+      return false if !@uptime.nil? && @uptime < 0
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] period Value to be assigned
+    def period=(period)
+      if period.nil?
+        raise ArgumentError, 'period cannot be nil'
+      end
+
+      if period > 172800
+        raise ArgumentError, 'invalid value for "period", must be smaller than or equal to 172800.'
+      end
+
+      if period < 30
+        raise ArgumentError, 'invalid value for "period", must be greater than or equal to 30.'
+      end
+
+      @period = period
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] uptime Value to be assigned
+    def uptime=(uptime)
+      if !uptime.nil? && uptime < 0
+        raise ArgumentError, 'invalid value for "uptime", must be greater than or equal to 0.'
+      end
+
+      @uptime = uptime
     end
 
     # Checks equality by comparing each attribute.
@@ -219,13 +258,13 @@ module StatusCake
       self.class == other.class &&
         id == other.id &&
         name == other.name &&
-        end_at == other.end_at &&
-        repeat_interval == other.repeat_interval &&
-        start_at == other.start_at &&
-        state == other.state &&
+        url == other.url &&
+        period == other.period &&
+        contact_groups == other.contact_groups &&
+        paused == other.paused &&
+        status == other.status &&
         tags == other.tags &&
-        tests == other.tests &&
-        timezone == other.timezone
+        uptime == other.uptime
     end
 
     # @see the `==` method
@@ -237,7 +276,7 @@ module StatusCake
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, end_at, repeat_interval, start_at, state, tags, tests, timezone].hash
+      [id, name, url, period, contact_groups, paused, status, tags, uptime].hash
     end
 
     # Builds the object from hash
