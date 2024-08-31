@@ -9,9 +9,9 @@ can be found [here](https://www.statuscake.com/api/v1).
 
 ## Prerequisites
 
-You will need the following things properly installed on your computer.
+You will need the following things properly installed on your computer:
 
-* [Ruby](https://www.ruby-lang.org/en/): any one of the **three latest major**
+- [Ruby](https://www.ruby-lang.org/en/): any one of the **three latest major**
   [releases](https://www.ruby-lang.org/en/downloads/)
 
 ## Installation
@@ -28,13 +28,13 @@ gem 'statuscake-rb'
 And then execute:
 
 ```bash
-$ bundle install
+bundle install
 ```
 
 Or install it yourself:
 
 ```bash
-$ gem install statuscake-rb
+gem install statuscake-rb
 ```
 
 ### GitHub
@@ -42,10 +42,10 @@ $ gem install statuscake-rb
 Installing the latest version from GitHub:
 
 ```bash
-$ git clone https://github.com/StatusCakeDev/statuscake-rb
-$ cd statuscake-rb
-$ bundle install
-$ bundle exec rake install
+git clone https://github.com/StatusCakeDev/statuscake-rb
+cd statuscake-rb
+bundle install
+bundle exec rake install
 ```
 
 ## Usage
@@ -68,4 +68,4 @@ service.list_uptime_tests(opts)
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the [MIT License](LICENSE).
