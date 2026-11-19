@@ -1,19 +1,15 @@
-# statuscake-rb ![test](https://github.com/StatusCakeDev/statuscake-rb/workflows/test/badge.svg)
-
-**NOTE**: This library is in alpha and not production ready. Whilst it can be
-used we will not offer support until it is generally available.
+# statuscake-rb [![test](https://github.com/StatusCakeDev/statuscake-rb/actions/workflows/test.yaml/badge.svg?event=push)](https://github.com/StatusCakeDev/statuscake-rb/actions/workflows/test.yaml)
 
 The [Ruby](https://www.ruby-lang.org/en/) implementation of the [StatusCake
-API](https://www.statuscake.com/api/v1) client. Documentation for this library
-can be found on the [StatusCake Developer
-Portal](https://www.statuscake.com/api/v1).
+API][api-docs] client. Documentation for this library can be found on the
+[StatusCake Developer Portal][guides].
 
 ## Prerequisites
 
 You will need the following things properly installed on your computer:
 
 - [Ruby](https://www.ruby-lang.org/en/): any one of the **three latest major**
-  [releases](https://www.ruby-lang.org/en/downloads/)
+  [releases](https://www.ruby-lang.org/en/downloads/releases/)
 
 ## Installation
 
@@ -23,7 +19,7 @@ Using [RubyGems](https://rubygems.org/gems/statuscake-rb), add the following to
 `Gemfile`:
 
 ```ruby
-gem 'statuscake-rb'
+gem 'statuscake-rb', require: 'statuscake'
 ```
 
 And then execute:
@@ -51,22 +47,37 @@ bundle exec rake install
 
 ## Usage
 
-Import the gem from any Ruby file, instantiate an API client and execute a
+Require the gem from any Ruby file, instantiate an API client and execute a
 request:
 
 ```ruby
 require 'statuscake'
 
-client = StatusCake::ApiClient.new
+client = StatusCake::Client.new(ENV.fetch('STATUSCAKE_API_TOKEN'))
 
-# Constructing these options is a temporary fix until a client wide
-# authentication mechanism has been realised.
-opts = { header_params: { 'Authorization' => "Bearer #{api_token}" } }
+begin
+  tests = client.uptime.list_uptime_tests
+  puts tests.data.map(&:name)
+rescue StatusCake::ApiError => e
+  puts e.message
+  pp e.errors
+end
+```
 
-service = StatusCake::UptimeApi.new(client)
-service.list_uptime_tests(opts)
+## Examples
+
+The [`examples`](examples) directory has a program for each kind of check, which
+creates, reads, updates, lists and deletes it. They create resources in your
+account, and delete them again before exiting:
+
+```bash
+export STATUSCAKE_API_TOKEN=...
+ruby -Ilib examples/uptime.rb
 ```
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+[api-docs]: https://developers.statuscake.com/api/
+[guides]: https://developers.statuscake.com/guides/sdks/introduction
