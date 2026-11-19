@@ -118,8 +118,8 @@ module StatusCake
         invalid_properties.push('invalid value for "per_page", per_page cannot be nil.')
       end
 
-      if @per_page < 1
-        invalid_properties.push('invalid value for "per_page", must be greater than or equal to 1.')
+      if @per_page < 0
+        invalid_properties.push('invalid value for "per_page", must be greater than or equal to 0.')
       end
 
       if @page_count.nil?
@@ -134,8 +134,8 @@ module StatusCake
         invalid_properties.push('invalid value for "total_count", total_count cannot be nil.')
       end
 
-      if @total_count < 1
-        invalid_properties.push('invalid value for "total_count", must be greater than or equal to 1.')
+      if @total_count < 0
+        invalid_properties.push('invalid value for "total_count", must be greater than or equal to 0.')
       end
 
       invalid_properties
@@ -147,11 +147,11 @@ module StatusCake
       return false if @page.nil?
       return false if @page < 1
       return false if @per_page.nil?
-      return false if @per_page < 1
+      return false if @per_page < 0
       return false if @page_count.nil?
       return false if @page_count < 1
       return false if @total_count.nil?
-      return false if @total_count < 1
+      return false if @total_count < 0
       true
     end
 
@@ -176,8 +176,8 @@ module StatusCake
         raise ArgumentError, 'per_page cannot be nil'
       end
 
-      if per_page < 1
-        raise ArgumentError, 'invalid value for "per_page", must be greater than or equal to 1.'
+      if per_page < 0
+        raise ArgumentError, 'invalid value for "per_page", must be greater than or equal to 0.'
       end
 
       @per_page = per_page
@@ -204,8 +204,8 @@ module StatusCake
         raise ArgumentError, 'total_count cannot be nil'
       end
 
-      if total_count < 1
-        raise ArgumentError, 'invalid value for "total_count", must be greater than or equal to 1.'
+      if total_count < 0
+        raise ArgumentError, 'invalid value for "total_count", must be greater than or equal to 0.'
       end
 
       @total_count = total_count
