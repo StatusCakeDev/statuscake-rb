@@ -1,11 +1,11 @@
 ---
-require:
+plugins:
 - rubocop-rake
 - rubocop-rspec
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 3.2
 
 Style/BlockDelimiters:
   EnforcedStyle: semantic
@@ -18,6 +18,20 @@ Style/TrailingCommaInArrayLiteral:
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
+
+# Specifications describe behaviour in sentences and are not constrained.
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
 
 # Cops disabled because they are not constrained when generating code.
 
