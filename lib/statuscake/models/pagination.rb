@@ -134,8 +134,8 @@ module StatusCake
         invalid_properties.push('invalid value for "total_count", total_count cannot be nil.')
       end
 
-      if @total_count < 1
-        invalid_properties.push('invalid value for "total_count", must be greater than or equal to 1.')
+      if @total_count < 0
+        invalid_properties.push('invalid value for "total_count", must be greater than or equal to 0.')
       end
 
       invalid_properties
@@ -151,7 +151,7 @@ module StatusCake
       return false if @page_count.nil?
       return false if @page_count < 1
       return false if @total_count.nil?
-      return false if @total_count < 1
+      return false if @total_count < 0
       true
     end
 
@@ -204,8 +204,8 @@ module StatusCake
         raise ArgumentError, 'total_count cannot be nil'
       end
 
-      if total_count < 1
-        raise ArgumentError, 'invalid value for "total_count", must be greater than or equal to 1.'
+      if total_count < 0
+        raise ArgumentError, 'invalid value for "total_count", must be greater than or equal to 0.'
       end
 
       @total_count = total_count
